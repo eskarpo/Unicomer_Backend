@@ -1,0 +1,15 @@
+{
+  "name": "daniloalarcon",
+  "version": "1.0.0",
+  "description": "Project for Unicomer Tests",
+ 
+  "scripts": {
+    "Api-tests-Unicomer": "newman run Unicomer_CR.postman_collection.json e Costa_Rica.postman_environment.json"
+  },
+  "author": "Danilo Alarcon",
+  "license": "ISC",
+  "dependencies": {
+    "newman": "^4.0.2"
+  }
+
+}
