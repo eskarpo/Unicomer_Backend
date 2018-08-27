@@ -1,0 +1,373 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Unicomer_CR",
+		"_postman_id": "45ea00a2-2a9c-7f12-9773-9300df434bc2",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Validate_User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"try {    ",
+							"    ",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"    tests[\"Response time is less than 2 seconds\"] = responseTime < 2000;",
+							"    tests[\"Status code OK\"] = responseCode.name.has(\"OK\");",
+							"    ",
+							"    }",
+							"catch (e) {",
+							"    tests[\"Test has failed\"];",
+							"    }"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{Costa_Rica}}/users/validate",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"idType\": \"C\",\n   \"idDocumentNumber\": \"303700035\",\n   \"phone\":\"5151519\",\n   \"country\":\"CR\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Validate_User_fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"try {    ",
+							"    ",
+							"    tests[\"Status code is 500\"] = responseCode.code === 500;",
+							"    tests[\"Response time is less than 2 seconds\"] = responseTime < 2000;",
+							"    tests[\"Status code Internal Server Error\"] = responseCode.name.has(\"Internal Server Error\");",
+							"    tests[\" clientErrorCode\"] = responseBody.has(600);",
+							"    tests[\" errorCode\"] = responseBody.has(600);",
+							"    }",
+							"catch (e) {",
+							"    tests[\"Test has failed\"];",
+							"    }"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{Costa_Rica}}/users/validate",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"idType\": \"C\",\n   \"idDocumentNumber\": \"206390251\",\n   \"phone\":\"5151519\",\n   \"country\":\"CR\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create_User_Android",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"try {    ",
+							"    ",
+							"",
+							"    tests[\"Status code is 201\"] = responseCode.code === 201;",
+							"    tests[\"Response time is less than 2 seconds\"] = responseTime < 2000;",
+							"    tests[\"Status code Created\"] = responseCode.name.has(\"Created\");",
+							"    tests[\" accessToken\"] = responseBody.has(\"-\")",
+							"",
+							"    var jsonData = JSON.parse(responseBody);",
+							"   postman.setEnvironmentVariable(\"token\", jsonData.accessToken);",
+							"    ",
+							"    }",
+							"catch (e) {",
+							"    tests[\"Test has failed\"];",
+							"    }",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var text=\"1q9o34nm\";",
+							"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+							"    for( var i=0; i < 24; i++ )",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+							"postman.setEnvironmentVariable(\"awb\",text);",
+							"",
+							"var text=\"yptesting@\";",
+							"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+							"    for( var i=0; i < 5; i++ )",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+							"postman.setEnvironmentVariable(\"email\",text);",
+							"",
+							"var text=\"66\";",
+							"var charset = \"0123456789\";",
+							"    for( var i=0; i < 6; i++ )",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+							"postman.setEnvironmentVariable(\"phone\",text);",
+							"",
+							"var text=\"11\";",
+							"var charset = \"0123456789\";",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+							"postman.setEnvironmentVariable(\"idNumber\",text);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{Costa_Rica}}/users",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"uniqueId\": \"{{awb}}\",\n    \"deviceId\": \"b62daa9e-387f-4e7a-9a78-4ad5dae5f908\",\n    \"idDocumentNumber\": \"{{idNumber}}\",\n    \"idDocumentType\": \"C\",\n    \"phone\": \"{{phone}}\",\n    \"firstName\": \"Foo\",\n    \"lastName\": \"Bar\",\n    \"email\": \"{{email}}}}.com\",\n    \"pin\": \"589437\",\n    \"extUId\":\"0\",\n    \"devicePlatform\":\"ANDROID\",\n    \"deviceModel\":\"CELLPHONE\",\n    \"country\":\"CR\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User_Integration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"try {    ",
+							"    ",
+							"    tests[\"Status code is 406\"] = responseCode.code === 406;",
+							"    tests[\"Response time is less than 2 seconds\"] = responseTime < 2000;",
+							"    tests[\"Status code \"] = responseCode.name.has(\"Not Acceptable\");",
+							"    ",
+							"    }",
+							"catch (e) {",
+							"    tests[\"Test has failed\"];",
+							"    }"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://201.205.255.82:9090/UniPayAPI/users/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"extUId\": \"987321\" ,\n    \"id\": \"{{idNumber}}\",\n    \"idType\": \"C\",\n    \"phoneNumber\": \"5568590\",\n    \"firstName\": \"Octavio\",\n    \"lastName\": \"Alarcon\",\n    \"email\": \"alarcon@test.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create_User_Fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"try {    ",
+							"    ",
+							"    tests[\"Status code is 500\"] = responseCode.code === 500;",
+							"    tests[\"Response time is less than 2 seconds\"] = responseTime < 2000;",
+							"    tests[\"Status code Internal Server Error\"] = responseCode.name.has(\"Internal Server Error\");",
+							"    tests[\" clientErrorCode\"] = responseBody.has(3034);",
+							"    tests[\" clientErrorMessage\"] = responseBody.has(\"El id único ya está siendo utilizado por un usuario.\");",
+							"",
+							"    ",
+							"    }",
+							"catch (e) {",
+							"    tests[\"Test has failed\"];",
+							"    }"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{Costa_Rica}}/users",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"uniqueId\": \"f93d5beb-e909-45d6-b325-bd28eec2537h\",\n    \"deviceId\": \"b62daa9e-387f-4e7a-9a78-4ad5dae5f908\",\n    \"idDocumentNumber\": \"958462456683\",\n    \"idDocumentType\": \"C\",\n    \"phone\": \"76580591\",\n    \"firstName\": \"Foo\",\n    \"lastName\": \"Bar\",\n    \"email\": \"foo@bar12.com\",\n    \"pin\": \"589437\",\n    \"extUId\":\"0\",\n    \"devicePlatform\":\"ANDROID\",\n    \"deviceModel\":\"CELLPHONE\",\n    \"country\":\"CR\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create_User_IOS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"try {    ",
+							"    ",
+							"",
+							"    tests[\"Status code is 201\"] = responseCode.code === 201;",
+							"    tests[\"Response time is less than 2 seconds\"] = responseTime < 2000;",
+							"    tests[\"Status code Created\"] = responseCode.name.has(\"Created\");",
+							"    tests[\" accessToken\"] = responseBody.has(\"-\")",
+							"",
+							"    ",
+							"    }",
+							"catch (e) {",
+							"    tests[\"Test has failed\"];",
+							"    }",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var text=\"1q9o34nm\";",
+							"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+							"    for( var i=0; i < 24; i++ )",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+							"postman.setEnvironmentVariable(\"awb\",text);",
+							"",
+							"var text=\"yptesting@\";",
+							"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+							"    for( var i=0; i < 5; i++ )",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+							"postman.setEnvironmentVariable(\"email\",text);",
+							"",
+							"var text=\"66\";",
+							"var charset = \"0123456789\";",
+							"    for( var i=0; i < 6; i++ )",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+							"postman.setEnvironmentVariable(\"phone\",text);",
+							"",
+							"var text=\"11\";",
+							"var charset = \"0123456789\";",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+							"postman.setEnvironmentVariable(\"idNumber\",text);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{Costa_Rica}}/users",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"uniqueId\": \"{{awb}}\",\n    \"deviceId\": \"b62daa9e-387f-4e7a-9a78-4ad5dae5f908\",\n    \"idDocumentNumber\": \"{{idNumber}}\",\n    \"idDocumentType\": \"C\",\n    \"phone\": \"{{phone}}\",\n    \"firstName\": \"YP\",\n    \"lastName\": \"TESTING\",\n    \"email\": \"{{email}}}}.com\",\n    \"pin\": \"589437\",\n    \"extUId\":\"0\",\n    \"devicePlatform\":\"IOS\",\n    \"deviceModel\":\"CELLPHONE\",\n    \"country\":\"CR\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Security_Questions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"try {    ",
+							"    ",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"    tests[\"Response time is less than 2 seconds\"] = responseTime < 2000;",
+							"    tests[\"Status code OK\"] = responseCode.name.has(\"OK\");",
+							"    tests[\" question\"] = responseBody.has(\"?\");",
+							"    tests[\" inputCategory\"] = responseBody.has(\"NONE\");",
+							"    tests[\" inputType\"] = responseBody.has(\"DATE\");",
+							"    tests[\" inputFormat\"] = responseBody.has(\"/\");",
+							"    tests[\" inputMask\"] = responseBody.has(\"-\");",
+							"",
+							"",
+							"",
+							"    }",
+							"catch (e) {",
+							"    tests[\"Test has failed\"];",
+							"    }"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{Costa_Rica}}/users/190/security-questions",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
